@@ -7,7 +7,7 @@ Azure functions - generate licenses flow.
 * Queue
 * Blob
 
-### local.settings.json example
+# local.settings.json example
 ```
  {
   "IsEncrypted": false,
