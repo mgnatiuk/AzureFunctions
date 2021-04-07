@@ -8,7 +8,8 @@ Azure functions - generate licenses flow.
 * Blob
 
 ### AppSettings example
-  {
+```
+ {
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
@@ -18,3 +19,4 @@ Azure functions - generate licenses flow.
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   }
 }
+```
