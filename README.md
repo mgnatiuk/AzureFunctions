@@ -2,11 +2,12 @@
 Azure functions - generate licenses flow.
 
 
-# HTTP
-# Queue
-# Blob
+### Function types used for this project
+* HTTP trigger
+* Queue
+* Blob
 
-# AppSettings example
+### AppSettings example
   {
   "IsEncrypted": false,
   "Values": {
