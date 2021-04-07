@@ -14,7 +14,6 @@ namespace AzureFunctions
         [Blob("licenses/{rand-guid}.txt")] TextWriter outputBlob,
         ILogger log)
         {
-
             outputBlob.WriteLine("--- Ordere details ---");
             outputBlob.WriteLine($"Order number: {order.Id},");
             outputBlob.WriteLine($"Orderer email: {order.OrdererEmail},");
