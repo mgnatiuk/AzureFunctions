@@ -16,8 +16,9 @@ namespace AzureFunctions
         [FunctionName("RecivePaymentFunc")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            ILogger log,
-            [Queue("orders")] IAsyncCollector<Order> ordersQueue)
+            [Queue("orders")] IAsyncCollector<Order> ordersQueue,
+            [Table("orders")] IAsyncCollector<Order> ordersTable, 
+            ILogger log)
         {
             log.LogInformation("Payment recived.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -28,6 +29,11 @@ namespace AzureFunctions
 
             // [Queue("orders")] IAsyncCollector<Order>
             await ordersQueue.AddAsync(order);
+
+            // Add order to table
+            order.RowKey = order.Id.ToString();
+            order.PartitionKey = nameof(Order);
+            await ordersTable.AddAsync(order);
 
             return new OkObjectResult(responseMessage);
         }

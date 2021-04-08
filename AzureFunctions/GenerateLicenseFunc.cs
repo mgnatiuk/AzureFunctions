@@ -14,14 +14,14 @@ namespace AzureFunctions
         [Blob("licenses/{rand-guid}.txt")] TextWriter outputBlob,
         ILogger log)
         {
-            outputBlob.WriteLine("--- Ordere details ---");
+            outputBlob.WriteLine("--- Order details ---");
             outputBlob.WriteLine($"Order number: {order.Id},");
             outputBlob.WriteLine($"Orderer email: {order.OrdererEmail},");
             outputBlob.WriteLine($"Product name: {order.ProductName},");
             outputBlob.WriteLine($"Purchase date: {DateTime.Now.ToString("yyyy-mm-dd hh:mm:ss")},");
 
-            var md5 = System.Security.Cryptography.MD5.Create();
             string secretKey = Environment.GetEnvironmentVariable("SecretKey");
+            var md5 = System.Security.Cryptography.MD5.Create();
             var hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes($"{order.OrdererEmail}{secretKey}"));
             outputBlob.WriteLine($"Secret code: {BitConverter.ToString(hash).Replace("-","")}.");
 
