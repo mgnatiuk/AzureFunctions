@@ -16,8 +16,8 @@ namespace AzureFunctions
         [FunctionName("RecivePaymentFunc")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            [Queue("orders")] IAsyncCollector<Order> ordersQueue,
-            [Table("orders")] IAsyncCollector<Order> ordersTable, 
+            [Queue(nameof(Order))] IAsyncCollector<Order> ordersQueue,
+            [Table(nameof(Order))] IAsyncCollector<Order> ordersTable, 
             ILogger log)
         {
             log.LogInformation("Payment recived.");

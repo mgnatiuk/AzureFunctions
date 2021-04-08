@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.IO;
+using System.Threading.Tasks;
 using AzureFunctions.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -10,10 +11,20 @@ namespace AzureFunctions
     public static class GenerateLicenseFunc
     {
         [FunctionName("GenerateLicenseFunc")]
-        public static void Run([QueueTrigger("orders", Connection = "AzureWebJobsStorage")]Order order, 
-        [Blob("licenses/{rand-guid}.txt")] TextWriter outputBlob,
+        public static async Task Run([QueueTrigger(nameof(Order), Connection = "AzureWebJobsStorage")]Order order,
+        IBinder binder,
         ILogger log)
         {
+            // Bind TextWriter class with our BlobStorage
+            var outputBlob = await binder.BindAsync<TextWriter>(new BlobAttribute($"licenses/{order.Id}.txt") 
+                {
+                    Connection = "AzureWebJobsStorage"
+                });
+
+            // IBinder binder
+            // Works with all binding attributes (QueueAttribute, SendGridAttribute)
+            // [Blob("licenses/{rand-guid}.txt")] TextWriter outputBlob,
+
             outputBlob.WriteLine("--- Order details ---");
             outputBlob.WriteLine($"Order number: {order.Id},");
             outputBlob.WriteLine($"Orderer email: {order.OrdererEmail},");
