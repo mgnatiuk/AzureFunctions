@@ -20,3 +20,12 @@ Azure functions - generate licenses flow.
   }
 }
 ```
+
+# Simple request to our HTTP trigger function
+```
+{
+    "Id" : 3,
+    "OrdererEmail" : "alex.one@gmail.com",
+    "ProductName": "HR Managment system - basic plan"
+}       
+```
